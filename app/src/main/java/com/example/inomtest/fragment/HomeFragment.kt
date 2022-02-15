@@ -86,6 +86,7 @@ class HomeFragment : Fragment() {
             recyclerItemAdapter.notifyItemRangeChanged((page - 1) * 10, 10)
         })
 
+
         // 스크롤 리스너
         binding.rvItemList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -98,7 +99,7 @@ class HomeFragment : Fragment() {
                 // 스크롤이 끝에 도달했는지 확인
                 if (!binding.rvItemList.canScrollVertically(1) && lastVisibleItemPosition == itemTotalCount) {
                     recyclerItemAdapter.deleteLoading()
-
+                    model.loadProductItems(accessToken, size, null, null, null, null)
                 }
             }
         })
