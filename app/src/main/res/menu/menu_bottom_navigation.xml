@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/menu_chatting"
-        app:showAsAction="always"
-        android:title="채팅"/>
+        android:title="채팅"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_home"
-        app:showAsAction="always"
-        android:title="홈"/>
+        android:title="홈"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_regi"
-        app:showAsAction="always"
-        android:title="등록"/>
+        android:title="등록"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_noti"
-        app:showAsAction="always"
-        android:title="알림"/>
+        android:title="알림"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_myPage"
-        app:showAsAction="always"
-        android:title="마이페이지"/>
+        android:title="마이페이지"
+        app:showAsAction="always" />
 </menu>
