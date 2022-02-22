@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.inomtest.R
-import com.google.firebase.ktx.Firebase
+import com.example.inomtest.dataClass.ChatModel
 import java.util.*
 import java.util.Collections.reverseOrder
 import kotlin.collections.ArrayList
@@ -63,21 +63,21 @@ class ChattingFragment : Fragment() {
         private val destinationUsers : ArrayList<String> = arrayListOf()
 
         init {
-            uid = Firebase.auth.currentUser?.uid.toString()
+            //uid = Firebase.auth.currentUser?.uid.toString()
             println(uid)
 
-            fireDatabase.child("chatrooms").orderByChild("users/$uid").equalTo(true).addListenerForSingleValueEvent(object : ValueEventListener{
-                override fun onCancelled(error: DatabaseError) {
-                }
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    chatModel.clear()
-                    for(data in snapshot.children){
-                        chatModel.add(data.getValue<ChatModel>()!!)
-                        println(data)
-                    }
-                    notifyDataSetChanged()
-                }
-            })
+//            fireDatabase.child("chatrooms").orderByChild("users/$uid").equalTo(true).addListenerForSingleValueEvent(object : ValueEventListener{
+//                override fun onCancelled(error: DatabaseError) {
+//                }
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    chatModel.clear()
+//                    for(data in snapshot.children){
+//                        chatModel.add(data.getValue<ChatModel>()!!)
+//                        println(data)
+//                    }
+//                    notifyDataSetChanged()
+//                }
+//            })
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
 
@@ -99,17 +99,17 @@ class ChattingFragment : Fragment() {
                     destinationUsers.add(destinationUid)
                 }
             }
-            fireDatabase.child("users").child("$destinationUid").addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                }
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val friend = snapshot.getValue<Friend>()
-                    Glide.with(holder.itemView.context).load(friend?.profileImageUrl)
-                        .apply(RequestOptions().circleCrop())
-                        .into(holder.imageView)
-                    holder.textView_title.text = friend?.name
-                }
-            })
+//            fireDatabase.child("users").child("$destinationUid").addListenerForSingleValueEvent(object : ValueEventListener {
+//                override fun onCancelled(error: DatabaseError) {
+//                }
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    val friend = snapshot.getValue<Friend>()
+//                    Glide.with(holder.itemView.context).load(friend?.profileImageUrl)
+//                        .apply(RequestOptions().circleCrop())
+//                        .into(holder.imageView)
+//                    holder.textView_title.text = friend?.name
+//                }
+//            })
             //메세지 내림차순 정렬 후 마지막 메세지의 키값을 가져옴
             val commentMap = TreeMap<String, ChatModel.Comment>(reverseOrder())
             commentMap.putAll(chatModel[position].comments)
@@ -117,11 +117,11 @@ class ChattingFragment : Fragment() {
             holder.textView_lastMessage.text = chatModel[position].comments[lastMessageKey]?.message
 
             //채팅창 선책 시 이동
-            holder.itemView.setOnClickListener {
-                val intent = Intent(context, MessageActivity::class.java)
-                intent.putExtra("destinationUid", destinationUsers[position])
-                context?.startActivity(intent)
-            }
+//            holder.itemView.setOnClickListener {
+//                val intent = Intent(context, MessageActivity::class.java)
+//                intent.putExtra("destinationUid", destinationUsers[position])
+//                context?.startActivity(intent)
+//            }
         }
         override fun getItemCount(): Int {
             return chatModel.size
