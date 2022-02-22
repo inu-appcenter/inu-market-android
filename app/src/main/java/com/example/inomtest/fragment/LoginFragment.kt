@@ -1,5 +1,8 @@
 package com.example.inomtest.fragment
 
+import android.content.ContentValues.TAG
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,13 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.example.inomtest.BuildConfig
-import com.example.inomtest.R
+import com.example.inomtest.*
 import com.example.inomtest.dataClass.LoginData
 import com.example.inomtest.databinding.FragmentLoginBinding
 import com.example.inomtest.databinding.FragmentSignupFinishBinding
 import com.example.inomtest.network.InomApi
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -95,7 +98,8 @@ class LoginFragment : Fragment() {
         paramObject.put("inuId", inuID)
         paramObject.put("password", password)
         paramObject.put("pushToken", "pushToken")
-        val request = RequestBody.create(MediaType.parse("application/json"),paramObject.toString())
+        //val request = RequestBody.create(MediaType.parse("application/json"),paramObject.toString())
+        val request = RequestBody.create("application/json"?.toMediaTypeOrNull(),paramObject.toString())
 
         val call = InomApi.createApi().login(request)
 
@@ -107,6 +111,13 @@ class LoginFragment : Fragment() {
                     Log.d("액세스토큰", "통신결과"+response.headers().get("Authorization"))
                     accessToken = response.headers().get("Authorization").toString()
                     bundle.putString("accessToken", accessToken)
+                    bundle.putString("accessToken", response.headers().get("Authorization"))
+                    //SharedPreference 추가하였습니다
+                    val SharedPreferences = activity?.getSharedPreferences("access", MODE_PRIVATE)
+                    val prefEdit = SharedPreferences?.edit()
+                    var header = response.headers().get("Authorization").toString()
+                    prefEdit?.putString("accessToken",header)
+                    prefEdit?.apply()
                 }
 
                 else {

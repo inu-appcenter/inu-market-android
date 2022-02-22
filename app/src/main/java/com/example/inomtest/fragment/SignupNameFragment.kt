@@ -13,6 +13,7 @@ import com.example.inomtest.dataClass.LoginData
 import com.example.inomtest.databinding.FragmentSignupNameBinding
 import com.example.inomtest.network.InomApi
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -83,7 +84,8 @@ class SignupNameFragment : Fragment() {
         paramObject.put("inuId", inuId)
         paramObject.put("password", password)
         paramObject.put("pushToken", "pushToken")
-        val request = RequestBody.create(MediaType.parse("application/json"),paramObject.toString())
+        //val request = RequestBody.create(MediaType.parse("application/json"),paramObject.toString())
+        val request = RequestBody.create("application/json"?.toMediaTypeOrNull(),paramObject.toString())
 
         val call = InomApi.createApi().signUp(request)
 

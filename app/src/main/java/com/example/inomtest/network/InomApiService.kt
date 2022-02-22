@@ -1,20 +1,25 @@
 package com.example.inomtest.network
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.util.Log
-import com.example.inomtest.BuildConfig
 import com.example.inomtest.dataClass.ItemData
-import com.example.inomtest.dataClass.LoginData
+import com.example.inomtest.network.InomApi.baseUrl
+import com.google.gson.Gson
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.Retrofit.Builder
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 interface InomApiService {
@@ -40,14 +45,27 @@ interface InomApiService {
     fun signUp(
         @Body jsonparams: RequestBody
     ): Call<Void>
-}
 
+
+    @GET("/api/items")
+    fun search(
+        @Header("Authorization") accessToken: String,
+        @Query("searchWord") searchTerm: String,
+        @Query("size")size:Int): Call<List<ItemData>>
+}
 
 object InomApi {
     // private const val baseUrl = "https://inu-market.cf/"  // 베이스 URL
-    private const val baseUrl = "http://13.209.183.154:8080"
+    private const val baseUrl = "http://117.16.191.59:8080"
 
-    init {
+    private var retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    init{
+        //로깅인터셉터 설정 추가하였습니다
         val interceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
             override fun log(message: String) {
                 Log.d(TAG, "InomApi - log() called / message: $message")
@@ -82,20 +100,13 @@ object InomApi {
         //Retrofit : type-safe한 HTTP 클라이언트 라이브러리
         //retrofit은 Okhttp 클라이언트를 디폴트로 선언
         //다른 HTTP 모듈보다 빠름
-        val retrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(builder)
             .build()
     }
-
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
 
     fun createApi(): InomApiService {
