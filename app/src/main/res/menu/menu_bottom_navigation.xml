@@ -3,26 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_chatting"
+        android:icon="@color/purple_200"
         android:title="채팅"
-        app:showAsAction="always" />
+        android:enabled="true"/>
 
     <item
         android:id="@+id/menu_home"
+        android:icon="@color/purple_200"
         android:title="홈"
-        app:showAsAction="always" />
+        android:enabled="true"/>
 
     <item
         android:id="@+id/menu_regi"
+        android:icon="@color/purple_200"
         android:title="등록"
-        app:showAsAction="always" />
+        android:enabled="true" />
 
     <item
         android:id="@+id/menu_noti"
+        android:icon="@color/purple_200"
         android:title="알림"
-        app:showAsAction="always" />
+        android:enabled="true" />
 
     <item
-        android:id="@+id/menu_myPage"
+        android:id="@+id/menu_my_page"
+        android:icon="@color/purple_200"
         android:title="마이페이지"
-        app:showAsAction="always" />
+        android:enabled="true" />
 </menu>

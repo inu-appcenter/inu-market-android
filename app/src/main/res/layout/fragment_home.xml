@@ -65,7 +65,8 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/home_bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="?attr/actionBarSize"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation">
 
