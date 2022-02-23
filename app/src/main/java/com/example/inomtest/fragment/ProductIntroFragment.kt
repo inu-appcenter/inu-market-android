@@ -5,32 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.example.inomtest.R
+import com.example.inomtest.databinding.FragmentProductIntroBinding
+import com.example.inomtest.network.RetrofitManager
 
 
+class ProductIntroFragment : AppCompatActivity() {
 
-class ProductIntroFragment : Fragment() {
+    private lateinit var binding: FragmentProductIntroBinding
+    lateinit var navController: NavController
+    private var destinationUid : String? = null
 
+    //검색한 후 상품아이디와 유저정보를 받아오려는 코드
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
+        binding = FragmentProductIntroBinding.inflate(layoutInflater)
+        destinationUid = intent.getStringExtra("destinationUid")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_intro, container, false)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            ProductIntroFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
-    }
 }

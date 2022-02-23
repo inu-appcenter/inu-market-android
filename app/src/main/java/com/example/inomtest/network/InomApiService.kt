@@ -43,17 +43,32 @@ interface InomApiService {
         @Body jsonparams: RequestBody
     ): Call<Void>
 
-
+    //검색
     @GET("/api/items")
     fun search(
         @Header("Authorization") accessToken: String,
         @Query("searchWord") searchTerm: String,
         @Query("size")size:Int): Call<JsonElement>
 
+    //상세조회
+    @GET("/api/items/{itemId}")
+    fun productDetails(
+        @Header("Authorization") accessToken: String,
+        @Query("itemId")itemId: Int): Call<JsonElement>
+
+    //알림
     @GET("/api/notifications")
     fun notification(
         @Header("Authorization") accessToken: String,
         @Query("notificationId") notificationId: Int): Call<List<NotificationData>>
+
+    //채팅방생성
+    @POST("/api/items/{itemId}/chat/rooms")
+    fun chatRoom(
+        @Header("Authorization") accessToken: String,
+        @Path ("itemId")itemId: String,
+        @Body roomId: Int
+    ): Call<Void>
 }
 
 object InomApi {

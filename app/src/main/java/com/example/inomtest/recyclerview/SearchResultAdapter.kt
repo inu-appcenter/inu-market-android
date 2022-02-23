@@ -1,15 +1,20 @@
 package com.example.inomtest.recyclerview
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.Intent
 import android.nfc.Tag
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.inomtest.R
 import com.example.inomtest.dataClass.ProductResult
 import com.example.inomtest.databinding.ItemViewBinding
+import com.example.inomtest.fragment.ProductIntroFragment
 import com.example.inomtest.network.App
 
 class SearchResultAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -21,9 +26,16 @@ class SearchResultAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return SearchResultViewHolder(binding)
     }
 
+    //이쪽 뷰홀더를 파일을 따로 파서 클릭리스너를 만들어야함_클릭이 되지 않음 ㅠㅠ
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is SearchResultViewHolder)
+        if (holder is SearchResultViewHolder) {
             holder.bind(this.productList[position])
+//            holder.itemView.setOnClickListener {
+//                val intent = Intent(this@SearchFragment, ProductIntroFragment::class.java)
+//                intent.putExtra("destinationUid", productList[position])//
+//                context?.startActivity(intent)
+//            }
+        }
     }
 
     override fun getItemCount(): Int {

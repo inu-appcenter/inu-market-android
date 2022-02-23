@@ -89,8 +89,7 @@ class SearchFragment : AppCompatActivity(), OnDeleteListener {
                 }
             }
         }
-
-
+        //recylerAdapter.setOnclick()_리싸이클러뷰 어댑터에서 뷰홀더 파일을 따로 파서 클릭리스너 수정해야함. 클릭이 되지 않음
     }
     //room 데이터 수정사항 업데이트
     fun refreshAdapter(){
