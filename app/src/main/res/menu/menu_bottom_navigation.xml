@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_chatting"
+        android:icon="@color/purple_200"
+        android:title="채팅"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@color/purple_200"
+        android:title="홈"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/menu_regi"
+        android:icon="@color/purple_200"
+        android:title="등록"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/menu_noti"
+        android:icon="@color/purple_200"
+        android:title="알림"
+        android:enabled="true" />
+
+    <item
+        android:id="@+id/menu_my_page"
+        android:icon="@color/purple_200"
+        android:title="마이페이지"
+        android:enabled="true" />
+</menu>

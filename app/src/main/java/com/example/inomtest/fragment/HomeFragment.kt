@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initNavigationBar(view: View) {
-        binding.homeBottomNavBar.run {
+        binding.homeBottomNavigation.run {
             setOnNavigationItemSelectedListener {
                 when(it.itemId) {
                     R.id.menu_chatting -> {
@@ -143,7 +143,7 @@ class HomeFragment : Fragment() {
                         view.findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
                     }
 
-                    R.id.menu_myPage -> {
+                    R.id.menu_my_page -> {
                         view.findNavController().navigate(R.id.action_homeFragment_to_myPageFragment)
                     }
                 }
