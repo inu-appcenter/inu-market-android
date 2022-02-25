@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.inomtest.MyPageViewModel" />
+            type="com.example.inomtest.ui.mypage.MyPageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,11 +45,7 @@
             android:background="#FFE5E5E5"
             app:layout_constraintTop_toBottomOf="@+id/layout_profile" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_my_page_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/view_my_page_divider" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
