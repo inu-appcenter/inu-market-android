@@ -21,6 +21,9 @@
     <string name="CategoryTop">카테고리</string>
     <string name="MajorTop">학과 카테고리</string>
 
+    <!--    마이페이지-->
+    <string name="my_page">마이페이지</string>
+
 
     <string name="fcm_message">푸시알림으로 올 메시지</string>
     <!-- TODO: Remove or change this placeholder text -->

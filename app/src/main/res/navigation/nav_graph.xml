@@ -108,7 +108,7 @@
         android:label="ChattingFragment" />
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.example.inomtest.fragment.MyPageFragment"
+        android:name="com.example.inomtest.ui.mypage.MyPageFragment"
         android:label="MyPageFragment" />
     <activity
         android:id="@+id/searchFragment"
