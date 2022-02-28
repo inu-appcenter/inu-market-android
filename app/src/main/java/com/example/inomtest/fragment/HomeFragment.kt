@@ -1,5 +1,7 @@
 package com.example.inomtest.fragment
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import com.example.inomtest.R
 import com.example.inomtest.recyclerview.RecyclerItemAdapter
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.databinding.FragmentHomeBinding
+import com.example.inomtest.network.App
 
 
 class HomeFragment : Fragment() {
@@ -42,9 +45,6 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         accessToken = arguments?.getString("accessToken").toString()
         Log.d("홈프_액세스토큰", accessToken)
-
-
-
     }
 
     override fun onCreateView(
@@ -61,6 +61,14 @@ class HomeFragment : Fragment() {
 
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
+        //카테고리 선택시
+        val SharedPreferences = App.instance.getSharedPreferences("access", Context.MODE_PRIVATE)
+        var category = SharedPreferences.getString("category", "")
+        var access1 = SharedPreferences.getString("accessToken","")
+        Log.d(TAG,"$category, $access1")
+
+        categoryId = category
+        accessToken = access1.toString()
 
         model.loadProductItems(
             accessToken,
@@ -105,9 +113,15 @@ class HomeFragment : Fragment() {
 
         initNavigationBar(view)
 
-        //검색버튼 -> 검색화면이동 추가했습니다!
+        //상단 버튼들 화면이동 추가했습니다!(카테고리, 학과, 검색)
         binding.searchBtn.setOnClickListener{
             it.findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+        binding.cateBtn.setOnClickListener{
+            it.findNavController().navigate(R.id.action_homeFragment_to_categoryFragment)
+        }
+        binding.majorBtn.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeFragment_to_majorFragment)
         }
     }
 

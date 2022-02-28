@@ -22,11 +22,13 @@
             android:layout_weight="1" />
 
         <Button
+            android:id="@+id/majorBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="학과선택" />
 
         <Button
+            android:id="@+id/cateBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="카테고리" />
