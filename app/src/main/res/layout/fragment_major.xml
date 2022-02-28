@@ -38,11 +38,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/majorRecycler"
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="700dp"
         tools:listitem="@layout/item_major"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

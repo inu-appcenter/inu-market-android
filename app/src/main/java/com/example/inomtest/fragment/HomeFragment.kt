@@ -62,15 +62,22 @@ class HomeFragment : Fragment() {
 
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
-        //선택된 카테고리 가져와서 함께 요청
+        //선택된 카테고리/학과 가져와서 함께 요청
         categoryId = null
         val SharedPreferences = App.instance.getSharedPreferences("access", Context.MODE_PRIVATE)
         var category = SharedPreferences.getInt("cate", 0)
+        var major = SharedPreferences.getInt("major", 0)
         var access1 = SharedPreferences.getString("accessToken","")
-        Log.d(TAG,"$category, $access1")
+        Log.d(TAG,"카테고리:$category, 학과:$major, 토큰:$access1")
 
         accessToken = access1.toString()
         categoryId = category
+        majorId = major
+        //카테고리 정보 초기화
+        val prefEdit = SharedPreferences?.edit()
+        val cateDefault = 0
+        prefEdit?.putInt("cate",cateDefault)
+
 
         model.loadProductItems(
             accessToken,
