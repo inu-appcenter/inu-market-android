@@ -21,8 +21,8 @@ class ProductRepository {
         accessToken: String,
         size: Int,
         itemId: String?,
-        categoryId: String?,
-        majorId: String?,
+        categoryId: Int?,
+        majorId: Int?,
         searchWord: String?) {
         // parameter["page"] = page.toString()
 

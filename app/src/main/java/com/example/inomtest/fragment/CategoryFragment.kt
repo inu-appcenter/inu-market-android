@@ -1,8 +1,10 @@
 package com.example.inomtest.fragment
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,17 +25,17 @@ class CategoryFragment : Fragment() {
     private lateinit var recyclerViewAdapter:RecyclerViewAdapter
     private lateinit var accessToken: String
     private var cateList = arrayListOf(
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"인기제품"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24, "도서"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"디지털기기"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"기프티콘"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"의류"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"뷰티/미용"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"게임/취미"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"스포츠/레저"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"식물"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"음반/티켓"),
-        CategoryList(R.drawable.ic_baseline_insert_photo_24,"삽니다")
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"인기제품",1),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24, "도서",2),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"디지털기기",3),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"기프티콘",4),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"의류",5),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"뷰티/미용",6),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"게임/취미",7),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"스포츠/레저",8),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"식물",9),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"음반/티켓",10),
+        CategoryList(R.drawable.ic_baseline_insert_photo_24,"삽니다",11)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,10 +88,10 @@ class CategoryFragment : Fragment() {
                 holder.bind(this.cateList[position])
                 holder.itemView.setOnClickListener {
                     it.findNavController().navigate(R.id.action_categoryFragment_to_homeFragment)
-                    val SharedPreferences = activity?.getSharedPreferences("loadPro", Context.MODE_PRIVATE)
+                    val SharedPreferences = activity?.getSharedPreferences("access", Context.MODE_PRIVATE)
                     val prefEdit = SharedPreferences?.edit()
-                    var category = cateList[position].name
-                    prefEdit?.putString("category",category)
+                    var category = cateList[position].id
+                    prefEdit?.putInt("cate",category)
                     prefEdit?.apply()
                 }
             }

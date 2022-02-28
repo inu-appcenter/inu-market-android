@@ -19,6 +19,7 @@ import com.example.inomtest.recyclerview.RecyclerItemAdapter
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.databinding.FragmentHomeBinding
 import com.example.inomtest.network.App
+import kotlin.String as String1
 
 
 class HomeFragment : Fragment() {
@@ -33,13 +34,13 @@ class HomeFragment : Fragment() {
 
     private var page = 1
 
-    private lateinit var accessToken: String
+    private lateinit var accessToken: String1
 
     private var size = 10
-    private var itemId: String? = null
-    private var categoryId: String? = null
-    private var majorId: String? = null
-    private var searchWord: String? = null
+    private var itemId: String1? = null
+    private var categoryId: Int? = null
+    private var majorId: Int? = null
+    private var searchWord: String1? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,14 +62,15 @@ class HomeFragment : Fragment() {
 
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
-        //카테고리 선택시
+        //선택된 카테고리 가져와서 함께 요청
+        categoryId = null
         val SharedPreferences = App.instance.getSharedPreferences("access", Context.MODE_PRIVATE)
-        var category = SharedPreferences.getString("category", "")
+        var category = SharedPreferences.getInt("cate", 0)
         var access1 = SharedPreferences.getString("accessToken","")
         Log.d(TAG,"$category, $access1")
 
-        categoryId = category
         accessToken = access1.toString()
+        categoryId = category
 
         model.loadProductItems(
             accessToken,
@@ -78,7 +80,8 @@ class HomeFragment : Fragment() {
             majorId,
             searchWord
         )
-
+        //카테고리값 초기화
+        categoryId = null
         binding.rvItemList.apply {
             binding.rvItemList.layoutManager = LinearLayoutManager(context)
             recyclerItemAdapter = RecyclerItemAdapter()
@@ -95,21 +98,21 @@ class HomeFragment : Fragment() {
 
 
         // 스크롤 리스너
-        binding.rvItemList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val lastVisibleItemPosition =
-                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-                val itemTotalCount = recyclerView.adapter!!.itemCount-1
-
-                // 스크롤이 끝에 도달했는지 확인
-                if (!binding.rvItemList.canScrollVertically(1) && lastVisibleItemPosition == itemTotalCount) {
-                    recyclerItemAdapter.deleteLoading()
-                    model.loadProductItems(accessToken, size, null, null, null, null)
-                }
-            }
-        })
+//        binding.rvItemList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//                val lastVisibleItemPosition =
+//                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+//                val itemTotalCount = recyclerView.adapter!!.itemCount-1
+//
+//                // 스크롤이 끝에 도달했는지 확인
+//                if (!binding.rvItemList.canScrollVertically(1) && lastVisibleItemPosition == itemTotalCount) {
+//                    recyclerItemAdapter.deleteLoading()
+//                    model.loadProductItems(accessToken, size, null, null, null, null)
+//                }
+//            }
+//        })
 
         initNavigationBar(view)
 
@@ -129,7 +132,7 @@ class HomeFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String1, param2: String1) =
             HomeFragment().apply {
                 arguments = Bundle().apply {
 
