@@ -16,16 +16,32 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inomtest.R
+import com.example.inomtest.dataClass.ItemData
+import com.example.inomtest.dataClass.ResponseImgURL
 import com.example.inomtest.databinding.FragmentProductRegiBinding
+import com.example.inomtest.network.InomApi
 import com.example.inomtest.recyclerview.RegiRecyclerAdapter
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ProductRegiFragment : Fragment() {
     private var _binding: FragmentProductRegiBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var accessToken: String
+
     var itemlist = ArrayList<Uri>()
     private lateinit var recyclerAdapter: RegiRecyclerAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        accessToken = arguments?.getString("accessToken").toString()
+    }
 
     private fun setupSpinnerMajor() {
         val items = resources.getStringArray(R.array.spinner_major)
@@ -130,8 +146,46 @@ class ProductRegiFragment : Fragment() {
             }
             recyclerAdapter.notifyDataSetChanged()
 
+            uploadImageToS3(accessToken, itemlist)
         }
 
+    }
+
+    fun uploadImageToS3(accessToken: String, arrayListUri: ArrayList<Uri>) {
+
+        var files : ArrayList<MultipartBody.Part> = ArrayList<MultipartBody.Part>()
+
+        // 파일 경로들을 가지고 있는 'arrayListUri'
+        for (i: Int in 0 until arrayListUri.count()){
+            var fileBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), arrayListUri.get(i).toString())
+            var fileName = "이미지$i.png"
+            var filePart = MultipartBody.Part.createFormData("images", fileName, fileBody)
+
+            files.add(filePart)
+        }
+
+        val call = InomApi.createApi().createImgURL(accessToken, files)
+
+        call.enqueue(object : Callback<ResponseImgURL> {
+            override fun onResponse(
+                call: Call<ResponseImgURL>,
+                response: Response<ResponseImgURL>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("이미지S3업로드결과", "통신결과"+response.code().toString())
+
+                    Log.d("첫번째이미지URI", response.body()?.imageUrls?.get(0).toString())
+                }
+
+                else {
+                    Log.d("이미지S3업로드엘스", "통신결과"+response.code().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseImgURL>, t: Throwable) {
+                Log.d("이미지업로드실패", "통신결과: $t")
+            }
+        })
     }
 
     override fun onCreateView(
