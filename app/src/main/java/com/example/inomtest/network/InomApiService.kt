@@ -1,11 +1,10 @@
 package com.example.inomtest.network
 
 import android.content.ContentValues.TAG
-import android.content.Context
-import android.media.Image
 import android.util.Log
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.dataClass.NotificationData
+import com.example.inomtest.dataClass.ResponseItemId
 import com.example.inomtest.dataClass.ResponseImgURL
 import com.google.gson.JsonElement
 import okhttp3.MultipartBody
@@ -20,7 +19,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.lang.Exception
-import java.net.URL
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 
@@ -85,15 +83,10 @@ interface InomApiService {
 
     // 상품 생성
     @POST("/api/items")
-    fun uploadProduct(
+    fun createProduct(
         @Header("Authorization") accessToken: String,
-        @Part ("title") title : String,
-        @Part ("contents") contents : String,
-        @Part ("price") price : String,
-        @Part ("mojorId") mojorId : Int,
-        @Part ("categoryId") categoryId : Int,
-        @Part ("imageUrls") imageUrls: ArrayList<String>
-    ): Call<Void>
+        @Body  params : HashMap<String, Any?>
+    ): Call<ResponseItemId>
 }
 
 object InomApi {

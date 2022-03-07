@@ -16,7 +16,7 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inomtest.R
-import com.example.inomtest.dataClass.ItemData
+import com.example.inomtest.dataClass.ResponseItemId
 import com.example.inomtest.dataClass.ResponseImgURL
 import com.example.inomtest.databinding.FragmentProductRegiBinding
 import com.example.inomtest.network.InomApi
@@ -36,7 +36,15 @@ class ProductRegiFragment : Fragment() {
     private lateinit var accessToken: String
 
     var itemlist = ArrayList<Uri>()
+    var imageUrls: ArrayList<String>? = ArrayList<String>()
+
     private lateinit var recyclerAdapter: RegiRecyclerAdapter
+
+    private lateinit var title : String
+    private lateinit var contents : String
+    private var price : Int = 0
+    private var majorId : Long = 1
+    private var categoryId : Long = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +69,7 @@ class ProductRegiFragment : Fragment() {
                 id: Long
             ) {
                 Log.d("학과선택결과", _binding?.regiMajor?.getItemAtPosition((position)).toString())
+                majorId = _binding?.regiMajor?.getItemIdAtPosition((position))!!
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -92,6 +101,7 @@ class ProductRegiFragment : Fragment() {
                         "스피너선택결과",
                         _binding?.regiCategory?.getItemAtPosition((position)).toString()
                     )
+                    categoryId = _binding?.regiCategory?.getItemIdAtPosition(position)!!
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -154,7 +164,7 @@ class ProductRegiFragment : Fragment() {
     fun uploadImageToS3(accessToken: String, arrayListUri: ArrayList<Uri>): ArrayList<String>? {
 
         var files : ArrayList<MultipartBody.Part> = ArrayList<MultipartBody.Part>()
-        var imageUrls: ArrayList<String>? = ArrayList<String>()
+
 
         // 파일 경로들을 가지고 있는 'arrayListUri'
         for (i: Int in 0 until arrayListUri.count()){
@@ -193,8 +203,41 @@ class ProductRegiFragment : Fragment() {
         return imageUrls
     }
 
-    fun assignProduct(accessToken: String, imageUrls: ArrayList<String>) {
+    fun assignProduct(accessToken: String, imageUrls: ArrayList<String>?) {
+        title = binding.regiTitle.toString()
+        contents = binding.regiContent.toString()
+        price = Integer.parseInt(binding.regiPrice.text.toString())
 
+        val body = HashMap<String, Any?>()
+        body.put("title", title)
+        body.put("contents", contents)
+        body.put("price", price)
+        body.put("majorId", majorId)
+        body.put("categoryId", categoryId)
+        body.put("imageUrls", imageUrls)
+
+        val call = InomApi.createApi().createProduct(accessToken, body)
+
+        call.enqueue(object : Callback<ResponseItemId> {
+            override fun onResponse(
+                call: Call<ResponseItemId>,
+                response: Response<ResponseItemId>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("상품생성결과", "통신결과"+response.code().toString())
+
+                    Log.d("상품아이디", response.body()?.itemId.toString())
+                }
+
+                else {
+                    Log.d("상품생성엘스", "통신결과"+response.code().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseItemId>, t: Throwable) {
+                Log.d("상품생성실패", "통신결과: $t")
+            }
+        })
     }
 
     override fun onCreateView(
@@ -219,7 +262,7 @@ class ProductRegiFragment : Fragment() {
         }
 
         binding.regiAssignButton.setOnClickListener {
-
+            assignProduct(accessToken, imageUrls)
         }
     }
 
