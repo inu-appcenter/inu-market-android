@@ -151,9 +151,10 @@ class ProductRegiFragment : Fragment() {
 
     }
 
-    fun uploadImageToS3(accessToken: String, arrayListUri: ArrayList<Uri>) {
+    fun uploadImageToS3(accessToken: String, arrayListUri: ArrayList<Uri>): ArrayList<String>? {
 
         var files : ArrayList<MultipartBody.Part> = ArrayList<MultipartBody.Part>()
+        var imageUrls: ArrayList<String>? = ArrayList<String>()
 
         // 파일 경로들을 가지고 있는 'arrayListUri'
         for (i: Int in 0 until arrayListUri.count()){
@@ -175,6 +176,7 @@ class ProductRegiFragment : Fragment() {
                     Log.d("이미지S3업로드결과", "통신결과"+response.code().toString())
 
                     Log.d("첫번째이미지URI", response.body()?.imageUrls?.get(0).toString())
+                    imageUrls = response.body()!!.imageUrls
                 }
 
                 else {
@@ -184,8 +186,15 @@ class ProductRegiFragment : Fragment() {
 
             override fun onFailure(call: Call<ResponseImgURL>, t: Throwable) {
                 Log.d("이미지업로드실패", "통신결과: $t")
+                imageUrls = null
             }
         })
+
+        return imageUrls
+    }
+
+    fun assignProduct(accessToken: String, imageUrls: ArrayList<String>) {
+
     }
 
     override fun onCreateView(
@@ -207,6 +216,10 @@ class ProductRegiFragment : Fragment() {
 
         binding.regiBackButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_productRegiFragment_to_homeFragment)
+        }
+
+        binding.regiAssignButton.setOnClickListener {
+
         }
     }
 

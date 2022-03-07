@@ -24,6 +24,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    val bundle = Bundle()
+
     private lateinit var model : MainViewModel
 
     private lateinit var recyclerItemAdapter: RecyclerItemAdapter
@@ -38,13 +40,12 @@ class HomeFragment : Fragment() {
     private var majorId: String? = null
     private var searchWord: String? = null
 
+    private var lastItemId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         accessToken = arguments?.getString("accessToken").toString()
-        Log.d("홈프_액세스토큰", accessToken)
-
-
-
+        bundle.putString("accessToken", accessToken)
     }
 
     override fun onCreateView(
@@ -62,7 +63,7 @@ class HomeFragment : Fragment() {
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        model.loadProductItems(
+        lastItemId = model.loadProductItems(
             accessToken,
             size,
             itemId,
@@ -98,7 +99,7 @@ class HomeFragment : Fragment() {
                 // 스크롤이 끝에 도달했는지 확인
                 if (!binding.rvItemList.canScrollVertically(1) && lastVisibleItemPosition == itemTotalCount) {
                     recyclerItemAdapter.deleteLoading()
-                    model.loadProductItems(accessToken, size, null, null, null, null)
+                    // model.loadProductItems(accessToken, size, lastItemId, null, null, null)
                 }
             }
         })
@@ -136,7 +137,7 @@ class HomeFragment : Fragment() {
                     }
 
                     R.id.menu_regi -> {
-                        view.findNavController().navigate(R.id.action_homeFragment_to_productRegiFragment)
+                        view.findNavController().navigate(R.id.action_homeFragment_to_productRegiFragment, bundle)
                     }
 
                     R.id.menu_noti -> {

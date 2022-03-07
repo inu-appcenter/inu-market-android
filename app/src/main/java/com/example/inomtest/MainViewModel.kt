@@ -12,6 +12,7 @@ class MainViewModel : ViewModel() {
         get() = productRepository._products
     val items : LiveData<List<ItemData>> = _items
 
+    private var lastItemId : String? = null
 
     fun loadProductItems(
         accessToken: String,
@@ -19,14 +20,15 @@ class MainViewModel : ViewModel() {
         itemId: String?,
         categoryId: String?,
         majorId: String?,
-        searchWord: String?) {
-        productRepository.loadProductItems(
-            accessToken,
+        searchWord: String?
+    ): String? {
+        lastItemId = productRepository.loadProductItems(accessToken,
             size,
             itemId,
             categoryId,
             majorId,
-            searchWord)
+            searchWord).toString()
+        return lastItemId
     }
 
     fun getAll(): LiveData<List<ItemData>> {

@@ -2,10 +2,13 @@ package com.example.inomtest.network
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.media.Image
 import android.util.Log
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.dataClass.NotificationData
+import com.example.inomtest.dataClass.ResponseImgURL
 import com.google.gson.JsonElement
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,6 +20,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.lang.Exception
+import java.net.URL
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 
 interface InomApiService {
@@ -68,6 +73,26 @@ interface InomApiService {
         @Header("Authorization") accessToken: String,
         @Path ("itemId")itemId: String,
         @Body roomId: Int
+    ): Call<Void>
+
+    // 상품 이미지 URL 생성
+    @Multipart
+    @POST("/api/items/imageUrls")
+    fun createImgURL(
+        @Header("Authorization") accessToken: String,
+        @Part images: ArrayList<MultipartBody.Part>
+    ) : Call<ResponseImgURL>
+
+    // 상품 생성
+    @POST("/api/items")
+    fun uploadProduct(
+        @Header("Authorization") accessToken: String,
+        @Part ("title") title : String,
+        @Part ("contents") contents : String,
+        @Part ("price") price : String,
+        @Part ("mojorId") mojorId : Int,
+        @Part ("categoryId") categoryId : Int,
+        @Part ("imageUrls") imageUrls: ArrayList<String>
     ): Call<Void>
 }
 
