@@ -146,47 +146,50 @@ class ProductRegiFragment : Fragment() {
             }
             recyclerAdapter.notifyDataSetChanged()
 
-            uploadImageToS3(accessToken, itemlist)
+
+            // TODO commit 누락으로 인한 에러로 추정 - 업로드 관련
+            // 업로드 담당 확인 필요
+//            uploadImageToS3(accessToken, itemlist)
         }
 
     }
 
-    fun uploadImageToS3(accessToken: String, arrayListUri: ArrayList<Uri>) {
-
-        var files : ArrayList<MultipartBody.Part> = ArrayList<MultipartBody.Part>()
-
-        // 파일 경로들을 가지고 있는 'arrayListUri'
-        for (i: Int in 0 until arrayListUri.count()){
-            var fileBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), arrayListUri.get(i).toString())
-            var fileName = "이미지$i.png"
-            var filePart = MultipartBody.Part.createFormData("images", fileName, fileBody)
-
-            files.add(filePart)
-        }
-
-        val call = InomApi.createApi().createImgURL(accessToken, files)
-
-        call.enqueue(object : Callback<ResponseImgURL> {
-            override fun onResponse(
-                call: Call<ResponseImgURL>,
-                response: Response<ResponseImgURL>
-            ) {
-                if (response.isSuccessful) {
-                    Log.d("이미지S3업로드결과", "통신결과"+response.code().toString())
-
-                    Log.d("첫번째이미지URI", response.body()?.imageUrls?.get(0).toString())
-                }
-
-                else {
-                    Log.d("이미지S3업로드엘스", "통신결과"+response.code().toString())
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseImgURL>, t: Throwable) {
-                Log.d("이미지업로드실패", "통신결과: $t")
-            }
-        })
-    }
+//    fun uploadImageToS3(accessToken: String, arrayListUri: ArrayList<Uri>) {
+//
+//        var files : ArrayList<MultipartBody.Part> = ArrayList<MultipartBody.Part>()
+//
+//        // 파일 경로들을 가지고 있는 'arrayListUri'
+//        for (i: Int in 0 until arrayListUri.count()){
+//            var fileBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), arrayListUri.get(i).toString())
+//            var fileName = "이미지$i.png"
+//            var filePart = MultipartBody.Part.createFormData("images", fileName, fileBody)
+//
+//            files.add(filePart)
+//        }
+//
+//        val call = InomApi.createApi().createImgURL(accessToken, files)
+//
+//        call.enqueue(object : Callback<ResponseImgURL> {
+//            override fun onResponse(
+//                call: Call<ResponseImgURL>,
+//                response: Response<ResponseImgURL>
+//            ) {
+//                if (response.isSuccessful) {
+//                    Log.d("이미지S3업로드결과", "통신결과"+response.code().toString())
+//
+//                    Log.d("첫번째이미지URI", response.body()?.imageUrls?.get(0).toString())
+//                }
+//
+//                else {
+//                    Log.d("이미지S3업로드엘스", "통신결과"+response.code().toString())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ResponseImgURL>, t: Throwable) {
+//                Log.d("이미지업로드실패", "통신결과: $t")
+//            }
+//        })
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

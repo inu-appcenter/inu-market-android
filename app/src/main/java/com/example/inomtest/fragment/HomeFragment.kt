@@ -89,19 +89,22 @@ class HomeFragment : Fragment() {
         )
         //카테고리값 초기화
         categoryId = null
-        binding.rvItemList.apply {
-            binding.rvItemList.layoutManager = LinearLayoutManager(context)
-            recyclerItemAdapter = RecyclerItemAdapter()
-            binding.rvItemList.adapter = recyclerItemAdapter
-        }
+
+        // TODO progressbar 관련 코드 임시 주석 처리
+//        binding.rvItemList.apply {
+//            binding.rvItemList.layoutManager = LinearLayoutManager(context)
+//            recyclerItemAdapter = RecyclerItemAdapter()
+//            binding.rvItemList.adapter = recyclerItemAdapter
+//        }
 //        list.add(ItemData(ContextCompat.getDrawable(requireContext(), R.drawable.image_sample)!!, "제목1", "가격1"))
 //        list.add(ItemData(ContextCompat.getDrawable(requireContext(), R.drawable.image_sample)!!, "제목2", "가격2"))
 //        list.add(ItemData(ContextCompat.getDrawable(requireContext(), R.drawable.image_sample)!!, "제목3", "가격3"))
 
-        model.getAll().observe(viewLifecycleOwner, Observer {
-            recyclerItemAdapter.setList(it as MutableList<ItemData>)
-            recyclerItemAdapter.notifyItemRangeChanged((page - 1) * 10, 10)
-        })
+        // TODO progressbar 관련 코드 임시 주석 처리
+//        model.getAll().observe(viewLifecycleOwner, Observer {
+//            recyclerItemAdapter.setList(it as MutableList<ItemData>)
+//            recyclerItemAdapter.notifyItemRangeChanged((page - 1) * 10, 10)
+//        })
 
 
         // 스크롤 리스너
