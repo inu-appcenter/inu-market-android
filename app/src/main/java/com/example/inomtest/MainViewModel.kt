@@ -17,8 +17,8 @@ class MainViewModel : ViewModel() {
         accessToken: String,
         size: Int,
         itemId: String?,
-        categoryId: String?,
-        majorId: String?,
+        categoryId: Int?,
+        majorId: Int?,
         searchWord: String?) {
         productRepository.loadProductItems(
             accessToken,

@@ -75,7 +75,7 @@ data class ItemDetail (
 
 data class Major (
     @SerializedName("majorID")
-    var majorID: String,
+    var majorID: Int,
 
     @SerializedName("name")
     var name: String

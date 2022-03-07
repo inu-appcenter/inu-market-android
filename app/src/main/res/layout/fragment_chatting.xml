@@ -22,7 +22,7 @@
             android:id="@+id/chattingTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Chatting"
+            android:text="@string/ChattingTop"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar"
             app:layout_constraintEnd_toEndOf="parent"

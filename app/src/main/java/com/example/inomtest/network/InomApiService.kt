@@ -25,8 +25,8 @@ interface InomApiService {
         @Header("Authorization") accessToken: String,
         @Query ("size") size: Int,
         @Query ("itemId") itemId: String?,
-        @Query ("categoryId") categoryId: String?,
-        @Query ("majorId") majorId: String?,
+        @Query ("categoryId") categoryId: Int?,
+        @Query ("majorId") majorId: Int?,
         @Query ("searchWord") searchWord: String?,
     )
     : Call<List<ItemData>>

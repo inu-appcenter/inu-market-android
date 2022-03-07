@@ -1,5 +1,6 @@
 package com.example.inomtest
 
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,8 +21,8 @@ class ProductRepository {
         accessToken: String,
         size: Int,
         itemId: String?,
-        categoryId: String?,
-        majorId: String?,
+        categoryId: Int?,
+        majorId: Int?,
         searchWord: String?) {
         // parameter["page"] = page.toString()
 
@@ -44,6 +45,7 @@ class ProductRepository {
             ) {
                 if (response.isSuccessful) {
                     Log.d("프로덕트레포_성공", "통신결과"+response.code().toString())
+                    Log.d(ContentValues.TAG,"카테고리:$categoryId, 학과:$majorId, 토큰:$accessToken")
                     _products.value = response.body()
                     Log.d("홈프_샘플데이터", _products.value.toString())
                 }

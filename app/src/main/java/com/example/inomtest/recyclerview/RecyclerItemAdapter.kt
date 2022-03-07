@@ -4,9 +4,12 @@ package com.example.inomtest.recyclerview
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.inomtest.R
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.databinding.ItemLoadingBinding
 import com.example.inomtest.databinding.ItemViewBinding
+import com.example.inomtest.network.App
 
 
 class RecyclerItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -21,6 +24,11 @@ class RecyclerItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         fun bind(item: ItemData) {
             binding.itemTextViewTitle.text = item.title
             binding.itemTextViewPrice.text = item.price.toString()
+            //glide라이브러리로 이미지 받아오도록 추가했습니다!
+            Glide.with(App.instance)
+                .load(item.mainImageUrl)
+                .placeholder(R.drawable.ic_baseline_insert_photo_24)
+                .into(binding.itemImageView)
         }
     }
 
