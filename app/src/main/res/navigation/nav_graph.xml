@@ -109,7 +109,11 @@
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.example.inomtest.ui.mypage.MyPageFragment"
-        android:label="MyPageFragment" />
+        android:label="MyPageFragment" >
+        <action
+            android:id="@+id/action_myPageFragment_to_myProductFragment"
+            app:destination="@id/myProductFragment" />
+    </fragment>
     <activity
         android:id="@+id/searchFragment"
         android:name="com.example.inomtest.fragment.SearchFragment"
@@ -139,5 +143,14 @@
         <action
             android:id="@+id/action_majorFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProductFragment"
+        android:name="com.example.inomtest.ui.mypage.MyProductFragment"
+        android:label="fragment_my_product"
+        tools:layout="@layout/fragment_my_product" >
+        <action
+            android:id="@+id/action_myProductFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
     </fragment>
 </navigation>

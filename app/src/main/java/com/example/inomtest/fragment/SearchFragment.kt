@@ -54,7 +54,7 @@ class SearchFragment : AppCompatActivity(), OnDeleteListener {
             RecentWordList.layoutManager = GridLayoutManager(this@SearchFragment, 2)
 
             searchBtn.setOnClickListener {
-                val content = binding.testEdit.text.toString()
+                val content = testEdit.text.toString()
                 //검색어 api 호출부에 넘겨주기
                 val SharedPreferences = getSharedPreferences("access", MODE_PRIVATE)
                 val prefEdit = SharedPreferences.edit()

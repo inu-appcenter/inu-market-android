@@ -20,6 +20,7 @@
     <string name="ChattingTop">채팅</string>
     <string name="CategoryTop">카테고리</string>
     <string name="MajorTop">학과 카테고리</string>
+    <string name="MyProduct1">판매 내역</string>
 
     <!--    마이페이지-->
     <string name="my_page">마이페이지</string>

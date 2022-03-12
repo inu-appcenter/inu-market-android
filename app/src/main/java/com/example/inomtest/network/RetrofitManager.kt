@@ -1,6 +1,7 @@
 package com.example.inomtest.network
 
 import android.app.Notification
+import android.content.ClipData
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -16,6 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class RetrofitManager {
@@ -123,6 +125,39 @@ class RetrofitManager {
         })
     }
 
+    //판매내역 api 호출
+    fun myProductApi(completion:(RESPONSE_STATE,ArrayList<ItemData>?)->Unit){
+        //레트로핏 인터페이스 가져오기
+        val iRetrofit :InomApiService = InomApi.createApi()
+
+        //액세스 토큰 가져오기
+        val SharedPreferences = App.instance.getSharedPreferences("access", Context.MODE_PRIVATE)
+        var access = SharedPreferences.getString("accessToken", "")
+        val callMyProduct = iRetrofit.loadMyProducts(accessToken = access.toString()).let{
+            it
+        }?: return
+
+        callMyProduct.enqueue(object: Callback<List<ItemData>> {
+            //응답성공시
+            override fun onResponse(call: Call<List<ItemData>>,
+                                    response: Response<List<ItemData>>) {
+                Log.d(TAG, "RetrofitManager - onResponse() called / t ${response.raw()}")
+                if (response.code() != 200) {
+                    Toast.makeText(App.instance, "${response.code()} 에러입니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    completion(RESPONSE_STATE.OKAY,ArrayList<ItemData>())
+                }
+            }
+
+            //응답실패시
+            override fun onFailure(call: Call<List<ItemData>>, t: Throwable) {
+                completion(RESPONSE_STATE.FAIL,null)
+            }
+
+        })
+    }
     //상세보기api 호출
 //    fun productDetail(completion:(RESPONSE_STATE, ArrayList<ProductResult>?)->Unit){
 //        //레트로핏 인터페이스 가져오기

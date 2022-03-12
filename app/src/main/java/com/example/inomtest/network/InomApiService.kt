@@ -69,6 +69,11 @@ interface InomApiService {
         @Path ("itemId")itemId: String,
         @Body roomId: Int
     ): Call<Void>
+
+    //판매내역
+    @GET ("/api/users/items")
+    fun loadMyProducts(
+        @Header("Authorization") accessToken: String): Call<List<ItemData>>
 }
 
 object InomApi {
