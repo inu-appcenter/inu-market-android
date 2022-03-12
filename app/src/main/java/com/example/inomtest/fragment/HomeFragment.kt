@@ -28,6 +28,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    val bundle = Bundle()
+
     private lateinit var model : MainViewModel
 
     private lateinit var recyclerItemAdapter: RecyclerItemAdapter
@@ -42,10 +44,12 @@ class HomeFragment : Fragment() {
     private var majorId: Int? = null
     private var searchWord: String1? = null
 
+    private var lastItemId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         accessToken = arguments?.getString("accessToken").toString()
-        Log.d("홈프_액세스토큰", accessToken)
+        bundle.putString("accessToken", accessToken)
     }
 
     override fun onCreateView(
@@ -79,7 +83,7 @@ class HomeFragment : Fragment() {
         prefEdit?.putInt("cate",cateDefault)
 
 
-        model.loadProductItems(
+        lastItemId = model.loadProductItems(
             accessToken,
             size,
             itemId,
@@ -87,6 +91,7 @@ class HomeFragment : Fragment() {
             majorId,
             searchWord
         )
+
         //카테고리값 초기화
         categoryId = null
         binding.rvItemList.apply {
@@ -105,25 +110,25 @@ class HomeFragment : Fragment() {
 
 
         // 스크롤 리스너
-//        binding.rvItemList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//
-//                val lastVisibleItemPosition =
-//                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
-//                val itemTotalCount = recyclerView.adapter!!.itemCount-1
-//
-//                // 스크롤이 끝에 도달했는지 확인
-//                if (!binding.rvItemList.canScrollVertically(1) && lastVisibleItemPosition == itemTotalCount) {
-//                    recyclerItemAdapter.deleteLoading()
-//                    model.loadProductItems(accessToken, size, null, null, null, null)
-//                }
-//            }
-//        })
+        binding.rvItemList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+                val itemTotalCount = recyclerView.adapter!!.itemCount-1
+
+                // 스크롤이 끝에 도달했는지 확인
+                if (!binding.rvItemList.canScrollVertically(1) && lastVisibleItemPosition == itemTotalCount) {
+                    recyclerItemAdapter.deleteLoading()
+                    // model.loadProductItems(accessToken, size, lastItemId, null, null, null)
+                }
+            }
+        })
 
         initNavigationBar(view)
 
-        //상단 버튼들 화면이동 추가했습니다!(카테고리, 학과, 검색)
+        //검색버튼 -> 검색화면이동 추가했습니다!
         binding.searchBtn.setOnClickListener{
             it.findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
@@ -139,7 +144,7 @@ class HomeFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String1, param2: String1) =
+        fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {
                 arguments = Bundle().apply {
 
@@ -160,7 +165,7 @@ class HomeFragment : Fragment() {
                     }
 
                     R.id.menu_regi -> {
-                        view.findNavController().navigate(R.id.action_homeFragment_to_productRegiFragment)
+                        view.findNavController().navigate(R.id.action_homeFragment_to_productRegiFragment, bundle)
                     }
 
                     R.id.menu_noti -> {

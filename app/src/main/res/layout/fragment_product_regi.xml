@@ -19,16 +19,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.033" />
 
-    <ImageButton
+    <Button
         android:id="@+id/regi_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="이미지업로드"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
+        app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.148" />
+        app:layout_constraintVertical_bias="0.051" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/regi_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.131" />
 
     <EditText
         android:id="@+id/regi_title"
@@ -43,9 +56,22 @@
         app:layout_constraintVertical_bias="0.31" />
 
     <Spinner
+        android:id="@+id/regi_major"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.41" />
+
+    <Spinner
         android:id="@+id/regi_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +81,9 @@
         android:id="@+id/regi_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="가격"
+        android:text="0"
+        android:inputType="number"
+        android:maxLength="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

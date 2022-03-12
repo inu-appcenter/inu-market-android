@@ -1,11 +1,13 @@
 package com.example.inomtest.network
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.util.Log
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.dataClass.NotificationData
+import com.example.inomtest.dataClass.ResponseItemId
+import com.example.inomtest.dataClass.ResponseImgURL
 import com.google.gson.JsonElement
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,6 +19,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.lang.Exception
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 
 interface InomApiService {
@@ -25,8 +28,8 @@ interface InomApiService {
         @Header("Authorization") accessToken: String,
         @Query ("size") size: Int,
         @Query ("itemId") itemId: String?,
-        @Query ("categoryId") categoryId: Int?,
-        @Query ("majorId") majorId: Int?,
+        @Query ("categoryId") categoryId: String?,
+        @Query ("majorId") majorId: String?,
         @Query ("searchWord") searchWord: String?,
     )
     : Call<List<ItemData>>
@@ -74,6 +77,21 @@ interface InomApiService {
     @GET ("/api/users/items")
     fun loadMyProducts(
         @Header("Authorization") accessToken: String): Call<List<ItemData>>
+
+    // 상품 이미지 URL 생성
+    @Multipart
+    @POST("/api/items/imageUrls")
+    fun createImgURL(
+        @Header("Authorization") accessToken: String,
+        @Part images: ArrayList<MultipartBody.Part>
+    ) : Call<ResponseImgURL>
+
+    // 상품 생성
+    @POST("/api/items")
+    fun createProduct(
+        @Header("Authorization") accessToken: String,
+        @Body  params : HashMap<String, Any?>
+    ): Call<ResponseItemId>
 }
 
 object InomApi {

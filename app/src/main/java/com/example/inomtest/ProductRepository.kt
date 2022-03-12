@@ -2,12 +2,9 @@ package com.example.inomtest
 
 import android.content.ContentValues
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.network.InomApi
-import okhttp3.MediaType
-import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,22 +14,16 @@ import retrofit2.Response
 class ProductRepository {
     var _products = MutableLiveData<List<ItemData>>()
 
+    private var lastItemId : Int = 0
+
     fun loadProductItems(
         accessToken: String,
         size: Int,
         itemId: String?,
-        categoryId: Int?,
-        majorId: Int?,
-        searchWord: String?) {
-        // parameter["page"] = page.toString()
-
-        /*val paramObject = JSONObject()
-        paramObject.put("size", 1)
-        paramObject.put("itemId", null)
-        paramObject.put("categoryId", "pushToken")
-        paramObject.put("majorId", "pushToken")
-        paramObject.put("searchWord", "pushToken")
-        val request = RequestBody.create(MediaType.parse("application/json"),paramObject.toString())*/
+        categoryId: String?,
+        majorId: String?,
+        searchWord: String?
+    ): Int {
 
         val call = InomApi.createApi().loadProducts(
             accessToken, size, itemId, categoryId, majorId, searchWord
@@ -48,6 +39,9 @@ class ProductRepository {
                     Log.d(ContentValues.TAG,"카테고리:$categoryId, 학과:$majorId, 토큰:$accessToken")
                     _products.value = response.body()
                     Log.d("홈프_샘플데이터", _products.value.toString())
+
+                    lastItemId = _products.value?.get(9)?.itemId!!
+                    Log.d("마지막아이템아이디", lastItemId.toString())
                 }
 
                 else {
@@ -59,5 +53,10 @@ class ProductRepository {
                 Log.d("프로덕트레포_실패", "통신결과: $t")
             }
         })
+
+        Log.d("프_레 리턴값", lastItemId.toString())
+        return lastItemId
     }
+
+
 }
