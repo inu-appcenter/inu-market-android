@@ -16,6 +16,9 @@ import com.example.inomtest.fragment.SearchFragment
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -251,6 +254,13 @@ class RetrofitManager {
 //
 //        })
 //    }
+
+    // profile
+    fun getProfileData(){
+        CoroutineScope(Dispatchers.IO).async {
+
+        }
+    }
 
     enum class RESPONSE_STATE{
         OKAY,
