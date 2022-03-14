@@ -156,11 +156,11 @@ object InomApi {
     }
 
     fun String.isJsonObject(): Boolean {
-        return this?.startsWith("{") && this.endsWith("}")
+        return this.startsWith("{") && this.endsWith("}")
 
     }
     fun String.isJsonArray(): Boolean {
-        return this?.startsWith("[") && this.endsWith("]")
+        return this.startsWith("[") && this.endsWith("]")
     }
 
 
