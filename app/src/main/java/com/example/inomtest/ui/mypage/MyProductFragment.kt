@@ -52,6 +52,7 @@ class MyProductFragment : Fragment() {
                         responseState, responseBody ->
                     myProList = responseBody as ArrayList<ItemData>
 
+
                     //api 수신 후 화면에 표시
                     when(responseState){
                         RetrofitManager.RESPONSE_STATE.OKAY->{

@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
     private var majorId: Int? = null
     private var searchWord: String1? = null
 
-    private var lastItemId: String? = null
+    private var lastItemId: String1? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
 
         //카테고리값 초기화
         categoryId = null
+
         binding.rvItemList.apply {
             binding.rvItemList.layoutManager = LinearLayoutManager(context)
             recyclerItemAdapter = RecyclerItemAdapter()

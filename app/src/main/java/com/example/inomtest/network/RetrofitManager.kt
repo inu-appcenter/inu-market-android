@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.nfc.Tag
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.dataClass.NotificationData
 import com.example.inomtest.dataClass.ProductResult
@@ -145,11 +146,13 @@ class RetrofitManager {
             override fun onResponse(call: Call<List<ItemData>>,
                                     response: Response<List<ItemData>>) {
                 Log.d(TAG, "RetrofitManager - onResponse() called / t ${response.raw()}")
+                var proList = MutableLiveData<List<ItemData>>()
                 if (response.code() != 200) {
                     Toast.makeText(App.instance, "${response.code()} 에러입니다.", Toast.LENGTH_SHORT)
                         .show()
                 }
                 else{
+                    proList.value = response.body()
                     completion(RESPONSE_STATE.OKAY,ArrayList<ItemData>())
                 }
             }

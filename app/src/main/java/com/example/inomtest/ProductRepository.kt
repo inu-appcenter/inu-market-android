@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.inomtest.dataClass.ItemData
 import com.example.inomtest.network.InomApi
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,8 +19,8 @@ class ProductRepository {
         accessToken: String,
         size: Int,
         itemId: String?,
-        categoryId: String?,
-        majorId: String?,
+        categoryId: Int?,
+        majorId: Int?,
         searchWord: String?
     ): Int {
 
@@ -40,7 +39,9 @@ class ProductRepository {
                     _products.value = response.body()
                     Log.d("홈프_샘플데이터", _products.value.toString())
 
-                    lastItemId = _products.value?.get(9)?.itemId!!
+                    if (!_products.value.isNullOrEmpty()){
+                        lastItemId = _products.value?.get(9)?.itemId!!
+                    }
                     Log.d("마지막아이템아이디", lastItemId.toString())
                 }
 
